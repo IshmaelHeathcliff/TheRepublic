@@ -4,15 +4,15 @@ using UnityEngine;
 public class Region
 {
     public Vector2Int InitialPos;
-    public List<Region> Neighbours;
+    public Dictionary<Region, float> Neighbours;
     public Color Color;
     public float RegionInfluence;
 
-    public Region(Vector2Int pos, Color color)
+    public Region(Vector2Int pos, Color color, float minInfluence=0.5f, float maxInfluence=1f)
     {
         InitialPos = pos;
         Color = color;
-        Neighbours = new List<Region>();
-        RegionInfluence = Random.Range(0.5f, 1f);
+        Neighbours = new Dictionary<Region, float>();
+        RegionInfluence = Random.Range(minInfluence, maxInfluence);
     }
 }

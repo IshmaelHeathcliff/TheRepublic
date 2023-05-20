@@ -35,8 +35,8 @@ public class MapDisplay : MonoBehaviour {
             Debug.Log(initialPos);
             var go = Instantiate(regionPoint, map.transform);
             _regionParts.Add(go);
-            go.transform.localPosition = mapGen.MapToWorldPosition(initialPos);
-            go.GetComponent<SpriteRenderer>().color = region.Color;
+            go.transform.localPosition = mapGen.MapToWorldPosition(initialPos, true);
+            // go.GetComponent<SpriteRenderer>().color = region.Color;
         }
     }
     
@@ -45,14 +45,16 @@ public class MapDisplay : MonoBehaviour {
         var mapGen = GetComponent<MapGenerator>();
         foreach (Region region in regions)
         {
-            foreach (Region neighbour in region.Neighbours)
+            foreach ((Region neighbour, var influence) in region.Neighbours)
             {
                 GameObject line = Instantiate(neighbourLine, map.transform);
                 _regionParts.Add(line);
                 Vector3 point1 = mapGen.MapToWorldPosition(region.InitialPos);
                 Vector3 point2 = mapGen.MapToWorldPosition(neighbour.InitialPos);
-                line.GetComponent<LineRenderer>().SetPosition(0, point1);
-                line.GetComponent<LineRenderer>().SetPosition(1, point2);
+                var lineRenderer = line.GetComponent<LineRenderer>();
+                lineRenderer.SetPosition(0, point1);
+                lineRenderer.SetPosition(1, point2);
+                lineRenderer.widthMultiplier = 0.02f * influence;
             }
         }
     }

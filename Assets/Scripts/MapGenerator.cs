@@ -9,16 +9,9 @@ using Random = UnityEngine.Random;
 
 public class MapGenerator : MonoBehaviour
 {
-    public int regionCount;
-    
-    public float regionMinDistance;
-    
-    public float neighbourMaxDistance;
-    
     public bool autoUpdate;
-
-
-
+    public bool displayNeighbour;
+    
     [Header("Map Base")]
     public int width;
 
@@ -33,7 +26,15 @@ public class MapGenerator : MonoBehaviour
 
 
 
-
+    [Header("Region")]
+    public int regionCount;
+    
+    public float regionMinDistance;
+    
+    public float neighbourMaxDistance;
+    
+    
+    
     [Header("Noise Map")] 
     public int seed;
 
@@ -50,14 +51,12 @@ public class MapGenerator : MonoBehaviour
     public Vector2 offset;
 
     public float noiseInfluence;
-    
-    
-    
-    
-    List<Region> _regions;
+
 
     bool[,] _mapBase;
     float[,] _noise;
+    List<Region> _regions;
+    Region[,] _regionMap;
     
     Color RandomColor()
     {
@@ -69,16 +68,22 @@ public class MapGenerator : MonoBehaviour
         return color;
     }
 
-    public Vector2 MapToWorldPosition(Vector2Int pos)
+    public Vector3 MapToWorldPosition(Vector2Int pos, bool local=false)
     {
         Vector2Int mapBias = new Vector2Int(width, height) / 2;
-        var pixelPerUnit = GetComponent<MapDisplay>().map.GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
-        return (Vector2)(pos - mapBias)/pixelPerUnit;
+        GameObject map = GetComponent<MapDisplay>().map;
+        var pixelPerUnit = map.GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
+        Vector3 mapScale = map.transform.localScale;
+        Vector3 worldPos = (Vector2) (pos - mapBias) / pixelPerUnit;
+        if (local) return worldPos;
+        worldPos.x *= mapScale.x;
+        worldPos.y *= mapScale.y;
+        worldPos += map.transform.position;
+        return worldPos;
     }
 
-    void ClearMap()
+    public void ClearMap()
     {
-        _regions = new List<Region>();
         GetComponent<MapDisplay>().ClearPoints();
     }
 
@@ -186,42 +191,14 @@ public class MapGenerator : MonoBehaviour
             
             
             _regions.Add(new Region(pos, RandomColor()));
-            
-            // GetComponent<MapDisplay>().DisplayPoints(Regions);
         }
     }
 
-    void ConnectNeighbour()
-    {
-        for (var i = 0; i < _regions.Count-1; i++)
-        {
-            var nearest = i + 1;
-            for (var j = i+1; j < _regions.Count; j++)
-            {
-                var dist = Vector2Int.Distance(_regions[i].InitialPos, _regions[j].InitialPos);
-                if (dist < neighbourMaxDistance)
-                {
-                    _regions[i].Neighbours.Add(_regions[j]);
-                    _regions[j].Neighbours.Add(_regions[i]);
-                }
-
-                if (dist < Vector2Int.Distance(_regions[i].InitialPos, _regions[nearest].InitialPos))
-                {
-                    nearest = j;
-                }
-            }
-
-            if (_regions[i].Neighbours.Count == 0)
-            {
-                _regions[i].Neighbours.Add(_regions[nearest]);
-                _regions[nearest].Neighbours.Add(_regions[i]);
-            }
-        }
-    }
-    
     void GenerateRegion()
     {
         var colorMap = new Color[width * height];
+        _regionMap = new Region[width, height];
+        
         for (var x = 0; x < width; x++)
         {
             for (var y = 0; y < height; y++)
@@ -244,6 +221,7 @@ public class MapGenerator : MonoBehaviour
                 }
 
                 colorMap[x + y*width] = nearestRegion.Color;
+                _regionMap[x, y] = nearestRegion;
             }
         }
 
@@ -252,12 +230,56 @@ public class MapGenerator : MonoBehaviour
         display.DrawTexture(texture);
     }
 
+    void ConnectNeighbour()
+    {
+        for (int x = 1; x < width-1; x++)
+        {
+            for (int y = 1; y < height-1; y++)
+            {
+                Region region = _regionMap[x, y];
+                if (region == null) continue;
+                
+                for (int i = -1; i < 2; i++)
+                {
+                    for (int j = -1; j < 2; j++)
+                    {
+                        if (i == 0 && j == 0) continue;
+                        Region nearbyRegion = _regionMap[x + i, y + j];
+                        if (nearbyRegion == null) continue;
+                        
+                        if (region != nearbyRegion)
+                        {
+                            if (!region.Neighbours.ContainsKey(nearbyRegion))
+                            {
+                                region.Neighbours.Add(nearbyRegion, 1f);
+                            }
+                            else
+                            {
+                                region.Neighbours[nearbyRegion] += 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    void DisplayRegionInfo()
+    {
+        var display = GetComponent<MapDisplay>();
+        display.DisplayPoints(_regions);
+        display.DisplayNeighbour(_regions);
+    }
+
     public void GenerateMap()
     {
         GenerateNoise();
         GenerateMapBase();
         GenerateInitialPoint();
         GenerateRegion();
+        ConnectNeighbour();
+        ClearMap();
+        if(displayNeighbour) DisplayRegionInfo();
     }
 
     void Start()

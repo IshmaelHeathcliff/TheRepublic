@@ -18,13 +18,13 @@ public class MapGeneratorEditor : Editor {
             mapGen.GenerateMap();
         }
         
-        
+
         // if (GUILayout.Button ("Generate Map Base")) {
         //     mapGen.GenerateMapBase();
         // }
-        // if (GUILayout.Button ("Clear")) {
-        //     mapGen.ClearMap();
-        // }
+        if (GUILayout.Button ("Clear")) {
+            mapGen.ClearMap();
+        }
         //
         // if (GUILayout.Button ("Generate Initial Point")) {
         //     mapGen.GenerateInitialPoint();
