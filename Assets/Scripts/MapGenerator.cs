@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -9,71 +10,173 @@ using Random = UnityEngine.Random;
 public class MapGenerator : MonoBehaviour
 {
     public int regionCount;
-
+    
     public float regionMinDistance;
-
+    
     public float neighbourMaxDistance;
+    
+    public bool autoUpdate;
 
-    public Sprite mapBase;
 
-    public MapSO mapSO;
 
-    public GameObject map;
+    [Header("Map Base")]
+    public int width;
 
-    public GameObject regionPoint;
+    public int height;
+    
+    public int edgeCount = 8;
+    
+    public float edgeDistance = 50f;
 
-    public GameObject neighbourLine;
+    [Range(0f, 1f)]
+    public float baseInfluence = 0.5f;
 
+
+
+
+    [Header("Noise Map")] 
+    public int seed;
+
+    public float scale;
+
+    [Range(0, 10)]
+    public int octaves;
+
+    [Range(0, 1)]
+    public float persistence;
+
+    public float lacunarity;
+
+    public Vector2 offset;
+
+    public float noiseInfluence;
+    
+    
+    
+    
     List<Region> _regions;
 
-    List<GameObject> _regionPoints;
+    bool[,] _mapBase;
+    float[,] _noise;
     
     Color RandomColor()
     {
         //随机颜色的RGB值。即刻得到一个随机的颜色
-        float r = Random.Range(0f, 1f);
-        float g = Random.Range(0f, 1f);
-        float b = Random.Range(0f, 1f);
-        Color color = new Color(r,g,b);
+        var r = Random.Range(0f, 1f);
+        var g = Random.Range(0f, 1f);
+        var b = Random.Range(0f, 1f);
+        var color = new Color(r,g,b);
         return color;
     }
 
-    Vector2 MapToWorldPosition(Vector2Int pos)
+    public Vector2 MapToWorldPosition(Vector2Int pos)
     {
-        Vector2Int mapBias = new Vector2Int(mapBase.texture.width, mapBase.texture.height) / 2;
-        return (Vector2)(pos - mapBias) / mapBase.pixelsPerUnit;
+        Vector2Int mapBias = new Vector2Int(width, height) / 2;
+        var pixelPerUnit = GetComponent<MapDisplay>().map.GetComponent<SpriteRenderer>().sprite.pixelsPerUnit;
+        return (Vector2)(pos - mapBias)/pixelPerUnit;
     }
 
     void ClearMap()
     {
-        foreach (GameObject point in _regionPoints)
-        {
-            Destroy(point);
-        }
-
         _regions = new List<Region>();
-
+        GetComponent<MapDisplay>().ClearPoints();
     }
 
-    public void GenerateMap()
+    void GenerateNoise()
     {
-        ClearMap();
+        _noise = Noise.GenerateNoiseMap(width, height, seed, scale, 
+            octaves, persistence, lacunarity, offset);
+        
+        // Texture2D noiseMap = TextureGenerator.TextureFromHeightMap(_noise);
+        // var display = GetComponent<MapDisplay>();
+        // display.DrawNoiseTexture(noiseMap);
+    }
+
+    void GenerateMapBase()
+    {
+        var edgePoints = new List<Vector2Int>();
+        
+        edgePoints.Add(new Vector2Int(width/2, height/2));
+        for (var i = 0; i < edgeCount; i++)
+        {
+            var x = Random.Range(0, width);
+            var y = Random.Range(0, height);
+
+            var newPoint = new Vector2Int(x, y);
+            var skip = edgePoints.Any(point => Vector2Int.Distance(point, newPoint) < edgeDistance);
+
+            if (skip)
+            {
+                i--;
+                continue;
+            }
+            
+            edgePoints.Add(newPoint); 
+        }
+
+        _mapBase = new bool[width, height];
+        for (var x = 0; x < width; x++)
+        {
+            for (var y = 0; y < height; y++)
+            {
+                Vector2Int nearestEdge = edgePoints[0];
+                var nearestInfluence = 1f;
+                for (var i = 0; i < edgePoints.Count; i++)
+                {
+                    var edgeInfluence = 1f;
+                    if (i == 0)
+                    {
+                        edgeInfluence = baseInfluence;
+                    }
+                    
+                    var distance1 = Vector2Int.Distance(nearestEdge, new Vector2Int(x, y)) *
+                        nearestInfluence + (_noise[x, y] * 2 - 1)* noiseInfluence;
+                    var distance2 = Vector2Int.Distance(edgePoints[i], new Vector2Int(x, y)) *
+                                    edgeInfluence;
+                    if (distance1 > distance2)
+                    {
+                        nearestEdge = edgePoints[i];
+                        nearestInfluence = edgeInfluence;
+                    }
+                }
+
+                if(nearestEdge == edgePoints[0])
+                    _mapBase[x, y] = true;
+            }
+        }
+
+        // var colorMap = new Color[width * height];
+        // for (var x = 0; x < width; x++)
+        // {
+        //     for (var y = 0; y < height; y++)
+        //     {
+        //         if (_mapBase[x, y])
+        //         {
+        //             colorMap[x + y * width] = Color.white;
+        //         }
+        //     }
+        // }
+
+        // Texture2D texture = TextureGenerator.TextureFromColourMap(colorMap, width, height);
+        // var display = GetComponent<MapDisplay>();
+        // display.DrawTexture(texture);
+    }
+
+    void GenerateInitialPoint()
+    {
+        _regions = new List<Region>();
         for (var r = 0; r < regionCount; r++)
         {
-            int x = Random.Range(0, mapBase.texture.width);
-            int y = Random.Range(0, mapBase.texture.height);
-            if (mapBase.texture.GetPixel(x, y).a < 1)
+            var x = Random.Range(0, width);
+            var y = Random.Range(0, height);
+            if (!_mapBase[x, y])
             {
                 r--;
                 continue;
             }
 
             var pos = new Vector2Int(x, y);
-            var skip = false;
-            foreach (Region region in _regions.Where(region => Vector2Int.Distance(pos, region.InitialPos) < regionMinDistance))
-            {
-                skip = true;
-            }
+            var skip = _regions.Any(region => Vector2Int.Distance(pos, region.InitialPos) < regionMinDistance);
 
             if (skip)
             {
@@ -83,26 +186,17 @@ public class MapGenerator : MonoBehaviour
             
             
             _regions.Add(new Region(pos, RandomColor()));
-        }
-
-        foreach (Region region in _regions)
-        {
-            var initialPos = region.InitialPos;
-            Debug.Log(initialPos);
-            var go = Instantiate(regionPoint, map.transform);
-            region.Point = go;
-            _regionPoints.Add(go);
-            go.transform.localPosition = MapToWorldPosition(initialPos);
-            go.GetComponent<SpriteRenderer>().color = region.Color;
+            
+            // GetComponent<MapDisplay>().DisplayPoints(Regions);
         }
     }
 
-    public void ConnectNeighbour()
+    void ConnectNeighbour()
     {
-        for (int i = 0; i < _regions.Count-1; i++)
+        for (var i = 0; i < _regions.Count-1; i++)
         {
             var nearest = i + 1;
-            for (int j = i+1; j < _regions.Count; j++)
+            for (var j = i+1; j < _regions.Count; j++)
             {
                 var dist = Vector2Int.Distance(_regions[i].InitialPos, _regions[j].InitialPos);
                 if (dist < neighbourMaxDistance)
@@ -123,23 +217,68 @@ public class MapGenerator : MonoBehaviour
                 _regions[nearest].Neighbours.Add(_regions[i]);
             }
         }
-
-        foreach (Region region in _regions)
+    }
+    
+    void GenerateRegion()
+    {
+        var colorMap = new Color[width * height];
+        for (var x = 0; x < width; x++)
         {
-            foreach (Region neighbour in region.Neighbours)
+            for (var y = 0; y < height; y++)
             {
-                var line = Instantiate(neighbourLine, map.transform);
-                _regionPoints.Add(line);
-                line.GetComponent<LineRenderer>().SetPosition(0, MapToWorldPosition(region.InitialPos));
-                line.GetComponent<LineRenderer>().SetPosition(1, MapToWorldPosition(neighbour.InitialPos));
+                if (!_mapBase[x, y])
+                {
+                    colorMap[x + y*width] = new Color(0, 0, 0, 0);
+                    continue;
+                }
+
+                Region nearestRegion = _regions[0];
+                foreach (Region region in _regions)
+                {
+                    var distance1 = Vector2Int.Distance(nearestRegion.InitialPos, new Vector2Int(x, y)) *
+                                    nearestRegion.RegionInfluence + (_noise[x, y] * 2 - 1)* noiseInfluence;
+                    var distance2 = Vector2Int.Distance(region.InitialPos, new Vector2Int(x, y)) *
+                                    region.RegionInfluence;
+                    if (distance1 > distance2)
+                        nearestRegion = region;
+                }
+
+                colorMap[x + y*width] = nearestRegion.Color;
             }
         }
+
+        Texture2D texture = TextureGenerator.TextureFromColourMap(colorMap, width, height);
+        var display = GetComponent<MapDisplay>();
+        display.DrawTexture(texture);
+    }
+
+    public void GenerateMap()
+    {
+        GenerateNoise();
+        GenerateMapBase();
+        GenerateInitialPoint();
+        GenerateRegion();
     }
 
     void Start()
     {
-        _regions = new List<Region>();
-        _regionPoints = new List<GameObject>();
+        _regions = new List<Region>(); 
+    }
+    
+    void OnValidate() {
+        if (lacunarity < 1) {
+            lacunarity = 1;
+        }
+
+        if (width < 100)
+        {
+            width = 100;
+        }
+
+        if (height < 100)
+        {
+            height = 100;
+        }
     }
 }
 
