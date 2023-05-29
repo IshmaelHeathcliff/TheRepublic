@@ -61,6 +61,8 @@ public class MapDisplay : MonoBehaviour {
 
     public void ClearPoints()
     {
+        if (_regionParts.Count == 0) return;
+        
         foreach (GameObject point in _regionParts)
         {
             DestroyImmediate(point);
