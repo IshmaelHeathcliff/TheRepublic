@@ -1,17 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "Region", menuName = "ScriptableObjects/Region")]
 public class Region : SerializedScriptableObject
 {
     [FoldoutGroup("区域生成信息")] public string regionName;
-    [FoldoutGroup("区域生成信息")] public Vector2Int InitialPos;
-    [FoldoutGroup("区域生成信息")] public Color Color;
-    [FoldoutGroup("区域生成信息")] public float RegionInfluence;
+    [FoldoutGroup("区域生成信息")] public Vector2Int initialPos;
+    [FoldoutGroup("区域生成信息")] public Color color;
+    [FoldoutGroup("区域生成信息")] public float regionInfluence;
 
     [FoldoutGroup("区域数据")] public int population;
     [FoldoutGroup("区域数据")] public float production;
@@ -23,23 +25,24 @@ public class Region : SerializedScriptableObject
     [FoldoutGroup("区域数据")] public float support;
     [FoldoutGroup("区域数据")] public float order;
 
-    public People People;
-    [HideInInspector] public Dictionary<Region, float> Neighbours;
+    public People people;
+    // [HideInInspector] 
+    public Dictionary<Region, float> neighbours;
 
     // [Button]
     public void Init(string rName, Vector2Int pos, Color color, float minInfluence=0.5f, float maxInfluence=1f)
     {
         regionName = rName;
-        InitialPos = pos;
-        Color = color;
-        Neighbours = new Dictionary<Region, float>();
-        RegionInfluence = Random.Range(minInfluence, maxInfluence);
+        initialPos = pos;
+        this.color = color;
+        neighbours = new Dictionary<Region, float>();
+        regionInfluence = Random.Range(minInfluence, maxInfluence);
+        
+        // Debug.Log(pos);
 
-        People = ScriptableObject.CreateInstance<People>();
-        AssetDatabase.AddObjectToAsset(People, this);
-        People.name = name + " People";
-
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+        people = CreateInstance<People>();
+        // people.name = name + " People";
+        // AssetDatabase.AddObjectToAsset(people, this);
+        AssetDatabase.CreateAsset(people, MapGenerator.Path + $"Region/People/{regionName} People.asset");
     }
 }

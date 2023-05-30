@@ -1,18 +1,15 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEditor;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(MapDisplay))]
 public class MapGenerator : MonoBehaviour
 {
+    public const string Path = "Assets/ScriptableObjects/";
     public bool autoUpdate;
     
     
@@ -23,7 +20,6 @@ public class MapGenerator : MonoBehaviour
     [FoldoutGroup("Map Base")] [Range(0f, 1f)] public float centerInfluence = 0.5f;
 
     
-    [FoldoutGroup("Region")] public string path;
     [FoldoutGroup("Region")] public int regionCount;
     [FoldoutGroup("Region")] public float regionMinDistance;
     [FoldoutGroup("Region")]public bool displayNeighbour;
@@ -80,24 +76,24 @@ public class MapGenerator : MonoBehaviour
         return worldPos;
     }
 
-    public void ClearMap()
-    {
-        Display.ClearPoints();
-    }
-
     Map CreateMapSO()
     {
         var map = ScriptableObject.CreateInstance<Map>();
-        AssetDatabase.CreateAsset(map, path + "Map.asset");
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+        AssetDatabase.CreateAsset(map, Path + "Map.asset");
+        // AssetDatabase.SaveAssets();
+        // AssetDatabase.Refresh();
         return map;
     }
 
-    Region CreateRegionSO(string regionName)
+    Region CreateRegionSO(string regionName, Vector2Int pos)
     {
         var region = ScriptableObject.CreateInstance<Region>();
-        AssetDatabase.CreateAsset(region, path + $"{regionName}.asset");
+        // Debug.Log($"Start initiating Region{r}");
+        region.Init(regionName, pos, RandomColor());
+        // Debug.Log($"finish initiating Region{r}");
+        AssetDatabase.CreateAsset(region, Path + $"Region/{regionName}.asset");
+        // AssetDatabase.SaveAssets();
+        // AssetDatabase.Refresh();
         return region;
     }
 
@@ -112,9 +108,8 @@ public class MapGenerator : MonoBehaviour
 
     void GenerateMapBase()
     {
-        var edgePoints = new List<Vector2Int>();
-        
-        edgePoints.Add(new Vector2Int(width/2, height/2));
+        var edgePoints = new List<Vector2Int> {new(width/2, height/2)};
+
         for (var i = 0; i < edgeCount; i++)
         {
             var x = Random.Range(0, width);
@@ -181,8 +176,8 @@ public class MapGenerator : MonoBehaviour
 
     void GenerateInitialPoint()
     {
-        _map.Regions = new List<Region>();
-        var regions = _map.Regions;
+        _map.regions = new List<Region>();
+        var regions = _map.regions;
         for (var r = 0; r < regionCount; r++)
         {
             var x = Random.Range(0, width);
@@ -197,7 +192,7 @@ public class MapGenerator : MonoBehaviour
             var skip = false;
             for (var i = 0; i < r; i++)
             {
-                if (!(Vector2Int.Distance(pos, regions[i].InitialPos) < regionMinDistance)) continue;
+                if (!(Vector2Int.Distance(pos, regions[i].initialPos) < regionMinDistance)) continue;
                 skip = true;
                 break;
             }
@@ -208,15 +203,13 @@ public class MapGenerator : MonoBehaviour
                 continue;
             }
 
-            Region region = CreateRegionSO($"Region {r}");
+            Region region = CreateRegionSO($"Region {r}", pos);
             regions.Add(region);
-            region.name = $"Region {r}";
-            region.Init($"Region {r}", pos, RandomColor());
         }
         
         // EditorUtility.SetDirty(_map);
         AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+        // AssetDatabase.Refresh();
     }
 
     void GenerateRegion()
@@ -224,7 +217,7 @@ public class MapGenerator : MonoBehaviour
         var colorMap = new Color[width * height];
         _map.RegionMap = new Region[width, height];
         var regionMap = _map.RegionMap;
-        var regions = _map.Regions;
+        var regions = _map.regions;
         
         for (var x = 0; x < width; x++)
         {
@@ -239,15 +232,15 @@ public class MapGenerator : MonoBehaviour
                 Region nearestRegion = regions[0];
                 foreach (Region region in regions)
                 {
-                    var distance1 = Vector2Int.Distance(nearestRegion.InitialPos, new Vector2Int(x, y)) *
-                                    nearestRegion.RegionInfluence + (_noise[x, y] * 2 - 1)* noiseInfluence;
-                    var distance2 = Vector2Int.Distance(region.InitialPos, new Vector2Int(x, y)) *
-                                    region.RegionInfluence;
+                    var distance1 = Vector2Int.Distance(nearestRegion.initialPos, new Vector2Int(x, y)) *
+                                    nearestRegion.regionInfluence + (_noise[x, y] * 2 - 1)* noiseInfluence;
+                    var distance2 = Vector2Int.Distance(region.initialPos, new Vector2Int(x, y)) *
+                                    region.regionInfluence;
                     if (distance1 > distance2)
                         nearestRegion = region;
                 }
 
-                colorMap[x + y*width] = nearestRegion.Color;
+                colorMap[x + y*width] = nearestRegion.color;
                 regionMap[x, y] = nearestRegion;
             }
         }
@@ -257,7 +250,8 @@ public class MapGenerator : MonoBehaviour
         var bytes = texture.EncodeToPNG();
         File.WriteAllBytes(Application.dataPath + "/Artworks/Map.png", bytes);
         AssetDatabase.Refresh();
-        _map.MapTexture = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Artworks/Map.png");
+        _map.mapTexture = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Artworks/Map.png");
+        EditorUtility.SetDirty(_map);
         Display.DrawTexture(texture);
     }
 
@@ -282,13 +276,13 @@ public class MapGenerator : MonoBehaviour
                         
                         if (region != nearbyRegion)
                         {
-                            if (!region.Neighbours.ContainsKey(nearbyRegion))
+                            if (!region.neighbours.ContainsKey(nearbyRegion))
                             {
-                                region.Neighbours.Add(nearbyRegion, 1f);
+                                region.neighbours.Add(nearbyRegion, 1f);
                             }
                             else
                             {
-                                region.Neighbours[nearbyRegion] += 1;
+                                region.neighbours[nearbyRegion] += 1;
                             }
                         }
                     }
@@ -299,8 +293,9 @@ public class MapGenerator : MonoBehaviour
 
     void DisplayRegionInfo()
     {
-        Display.DisplayPoints(_map.Regions);
-        Display.DisplayNeighbour(_map.Regions);
+        Display.ClearPoints();
+        Display.DisplayPoints(_map.regions);
+        Display.DisplayNeighbour(_map.regions);
     }
 
     [Button]
@@ -312,22 +307,28 @@ public class MapGenerator : MonoBehaviour
         GenerateInitialPoint();
         GenerateRegion();
         ConnectNeighbour();
-        ClearMap();
         if(displayNeighbour) DisplayRegionInfo();
-        EditorUtility.SetDirty(_map);
     }
 
     [Button]
     public void LoadMap()
     {
-        _map = AssetDatabase.LoadAssetAtPath<Map>(path + "Map.asset");
-        Display.DrawTexture((Texture2D)_map.MapTexture);
+        _map = AssetDatabase.LoadAssetAtPath<Map>(Path + "Map.asset");
+        Display.DrawTexture((Texture2D)_map.mapTexture);
         Debug.Log(_map.RegionMap.Length);
     }
 
     void Start()
     {
         _display = GetComponent<MapDisplay>();
+        if (_map != null)
+        {
+            LoadMap();
+        }
+        else
+        {
+            GenerateMap();
+        }
     }
     
     void OnValidate() {

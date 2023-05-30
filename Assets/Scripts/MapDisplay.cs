@@ -31,7 +31,7 @@ public class MapDisplay : MonoBehaviour {
         var mapGen = GetComponent<MapGenerator>();
         foreach (Region region in regions)
         {
-            var initialPos = region.InitialPos;
+            var initialPos = region.initialPos;
             Debug.Log(initialPos);
             var go = Instantiate(regionPoint, map.transform);
             _regionParts.Add(go);
@@ -45,12 +45,12 @@ public class MapDisplay : MonoBehaviour {
         var mapGen = GetComponent<MapGenerator>();
         foreach (Region region in regions)
         {
-            foreach ((Region neighbour, var influence) in region.Neighbours)
+            foreach ((Region neighbour, var influence) in region.neighbours)
             {
                 GameObject line = Instantiate(neighbourLine, map.transform);
                 _regionParts.Add(line);
-                Vector3 point1 = mapGen.MapToWorldPosition(region.InitialPos);
-                Vector3 point2 = mapGen.MapToWorldPosition(neighbour.InitialPos);
+                Vector3 point1 = mapGen.MapToWorldPosition(region.initialPos);
+                Vector3 point2 = mapGen.MapToWorldPosition(neighbour.initialPos);
                 var lineRenderer = line.GetComponent<LineRenderer>();
                 lineRenderer.SetPosition(0, point1);
                 lineRenderer.SetPosition(1, point2);
@@ -61,6 +61,11 @@ public class MapDisplay : MonoBehaviour {
 
     public void ClearPoints()
     {
+        if (_regionParts == null)
+        {
+            _regionParts = new List<GameObject>();
+            return;
+        }
         if (_regionParts.Count == 0) return;
         
         foreach (GameObject point in _regionParts)

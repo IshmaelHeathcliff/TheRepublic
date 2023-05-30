@@ -5,10 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Map", menuName = "ScriptableObjects/Map", order = 1)]
 public class Map : SerializedScriptableObject
 {
-        public List<Region> Regions;
+        public List<Region> regions;
         
         [HideInInspector]
         public Region[,] RegionMap;
 
-        public Texture MapTexture;
+        [PreviewField(100f)]
+        public Texture mapTexture;
 }
