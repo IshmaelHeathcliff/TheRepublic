@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(MapDisplay))]
 public class MapGenerator : MonoBehaviour
 {
-    public const string LocalSOPath = "Assets/ScriptableObjects/";
+    public const string LocalSOPath = "Assets/ScriptableObjects/Local/";
     public const string LocalPicPath = "Assets/Artworks/Local/";
     public bool autoUpdate;
     

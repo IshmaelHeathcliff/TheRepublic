@@ -12,7 +12,7 @@ namespace Editor
 {
     public class PeopleDataEditor : OdinMenuEditorWindow
     {
-        readonly string _resourcePath = "Assets/ScriptableObjects/";
+        readonly string _resourcePath = MapGenerator.LocalSOPath;
         protected override OdinMenuTree BuildMenuTree()
         {
             var tree = new OdinMenuTree(supportsMultiSelect: true);
