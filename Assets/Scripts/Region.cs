@@ -43,6 +43,6 @@ public class Region : SerializedScriptableObject
         people = CreateInstance<People>();
         // people.name = name + " People";
         // AssetDatabase.AddObjectToAsset(people, this);
-        AssetDatabase.CreateAsset(people, MapGenerator.Path + $"Region/People/{regionName} People.asset");
+        AssetDatabase.CreateAsset(people, MapGenerator.LocalSOPath + $"Region/People/{regionName} People.asset");
     }
 }

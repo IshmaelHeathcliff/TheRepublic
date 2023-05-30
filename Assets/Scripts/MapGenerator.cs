@@ -9,7 +9,8 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(MapDisplay))]
 public class MapGenerator : MonoBehaviour
 {
-    public const string Path = "Assets/ScriptableObjects/";
+    public const string LocalSOPath = "Assets/ScriptableObjects/";
+    public const string LocalPicPath = "Assets/Artworks/Local/";
     public bool autoUpdate;
     
     
@@ -79,7 +80,7 @@ public class MapGenerator : MonoBehaviour
     Map CreateMapSO()
     {
         var map = ScriptableObject.CreateInstance<Map>();
-        AssetDatabase.CreateAsset(map, Path + "Map.asset");
+        AssetDatabase.CreateAsset(map, LocalSOPath + "Map.asset");
         // AssetDatabase.SaveAssets();
         // AssetDatabase.Refresh();
         return map;
@@ -91,7 +92,7 @@ public class MapGenerator : MonoBehaviour
         // Debug.Log($"Start initiating Region{r}");
         region.Init(regionName, pos, RandomColor());
         // Debug.Log($"finish initiating Region{r}");
-        AssetDatabase.CreateAsset(region, Path + $"Region/{regionName}.asset");
+        AssetDatabase.CreateAsset(region, LocalSOPath + $"Region/{regionName}.asset");
         // AssetDatabase.SaveAssets();
         // AssetDatabase.Refresh();
         return region;
@@ -248,9 +249,9 @@ public class MapGenerator : MonoBehaviour
         Texture2D texture = TextureGenerator.TextureFromColourMap(colorMap, width, height);
         // Encode texture into PNG
         var bytes = texture.EncodeToPNG();
-        File.WriteAllBytes(Application.dataPath + "/Artworks/Map.png", bytes);
+        File.WriteAllBytes(LocalPicPath + "Map.png", bytes);
         AssetDatabase.Refresh();
-        _map.mapTexture = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Artworks/Map.png");
+        _map.mapTexture = AssetDatabase.LoadAssetAtPath<Texture>(LocalPicPath + "Map.png");
         EditorUtility.SetDirty(_map);
         Display.DrawTexture(texture);
     }
@@ -313,7 +314,7 @@ public class MapGenerator : MonoBehaviour
     [Button]
     public void LoadMap()
     {
-        _map = AssetDatabase.LoadAssetAtPath<Map>(Path + "Map.asset");
+        _map = AssetDatabase.LoadAssetAtPath<Map>(LocalSOPath + "Map.asset");
         Display.DrawTexture((Texture2D)_map.mapTexture);
         Debug.Log(_map.RegionMap.Length);
     }
