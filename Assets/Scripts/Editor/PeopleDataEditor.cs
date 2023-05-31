@@ -27,7 +27,7 @@ namespace Editor
         static void OpenWindow()           
         {               
             var window = GetWindow<PeopleDataEditor>();               
-            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(1200, 600);           
+            window.position = GUIHelper.GetEditorWindowRect().AlignCenter(1100, 600);           
         }
 
         void GetRegion(OdinMenuTree tree)

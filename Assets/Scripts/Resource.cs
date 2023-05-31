@@ -10,6 +10,8 @@ public class Resource
     [TabGroup("Produced")][TableList][SerializeField] List<ResourceData> resourcesProduced;
     [TabGroup("Possessed")][TableList][SerializeField] List<ResourceData> resourcesPossessed;
     [TabGroup("Consumed")][TableList][SerializeField] List<ResourceData> resourcesConsumed;
+
+    readonly Dictionary<ResourceState, List<ResourceData>> _resourceMap;
     public Resource()
     {
         resourcesProduced = new List<ResourceData>();
@@ -21,30 +23,20 @@ public class Resource
             resourcesPossessed.Add(new ResourceData(resourceType));
             resourcesConsumed.Add(new ResourceData(resourceType));
         }
+
+        _resourceMap = new Dictionary<ResourceState, List<ResourceData>>
+        {
+            {ResourceState.Produced, resourcesProduced},
+            {ResourceState.Possessed, resourcesPossessed},
+            {ResourceState.Consumed, resourcesConsumed}
+        };
     }
 
     public float this[ResourceState state, ResourceType type]
     {
         get
         {
-
-            List<ResourceData> target;
-            switch (state)
-            {
-                case ResourceState.Produced:
-                    target = resourcesProduced;
-                    break;
-                case ResourceState.Possessed:
-                    target = resourcesPossessed;
-                    break;
-                case ResourceState.Consumed:
-                    target = resourcesConsumed;
-                    break;
-                default:
-                    return 0;
-            }
-
-            foreach (ResourceData data in target.Where(data => data.type == type))
+            foreach (ResourceData data in _resourceMap[state].Where(data => data.type == type))
             {
                 return data.volume;
             }
@@ -55,23 +47,8 @@ public class Resource
 
         set
         {
-            List<ResourceData> target;
-            switch (state)
-            {
-                case ResourceState.Produced:
-                    target = resourcesProduced;
-                    break;
-                case ResourceState.Possessed:
-                    target = resourcesPossessed;
-                    break;
-                case ResourceState.Consumed:
-                    target = resourcesConsumed;
-                    break;
-                default:
-                    return;
-            }
 
-            foreach (ResourceData data in target.Where(data => data.type == type))
+            foreach (ResourceData data in _resourceMap[state].Where(data => data.type == type))
             {
                 data.volume = value;
             }
