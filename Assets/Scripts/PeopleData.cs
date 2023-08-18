@@ -6,20 +6,6 @@ using UnityEngine;
 [Serializable]
 public class PeopleData
 {
-        public enum DataType
-        {
-                Productivity,
-                Consuming,
-                Strength,
-                Intelligence,
-                Culture,
-                Loyalty,
-                Morality,
-                Happiness,
-                Reproduce,
-                Sociability,
-        }
-        
         [TableColumnWidth(160, Resizable = false), LabelWidth(80)]
         public PeopleType type;
         
@@ -27,7 +13,7 @@ public class PeopleData
         public int number;
         
         [SerializeReference][TableColumnWidth(250, Resizable = false)]
-        public Dictionary<DataType, float> data;
+        public Dictionary<PeopleDataType, float> data;
 
         [TableColumnWidth(300, Resizable = false)]
         public Resource resource;
@@ -37,8 +23,8 @@ public class PeopleData
                 this.type = type;
                 resource = new Resource();
 
-                data = new Dictionary<DataType, float>();
-                foreach (DataType dataType in Enum.GetValues(typeof(DataType)))
+                data = new Dictionary<PeopleDataType, float>();
+                foreach (PeopleDataType dataType in Enum.GetValues(typeof(PeopleDataType)))
                 {
                         data.Add(dataType, 0f);
                 }
@@ -59,10 +45,10 @@ public class PeopleData
         //         Debug.Log($"Resource after: {this[resourceState, resourceType]}");
         // }
 
-        public float this[DataType dataType]
+        public float this[PeopleDataType peopleDataType]
         {
-                get => data[dataType];
-                set => data[dataType] = value;
+                get => data[peopleDataType];
+                set => data[peopleDataType] = value;
         }
 
 
@@ -71,6 +57,20 @@ public class PeopleData
                 get => resource[resourceState, resourceType];
                 set => resource[resourceState, resourceType] = value;
         }
+}
+
+public enum PeopleDataType
+{
+        Productivity,
+        Consuming,
+        Strength,
+        Intelligence,
+        Culture,
+        Loyalty,
+        Morality,
+        Happiness,
+        Reproduce,
+        Sociability,
 }
 
 [Serializable]

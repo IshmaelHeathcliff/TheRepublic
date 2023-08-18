@@ -1,0 +1,1410 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f0047bd391c4d02a7d805c5fba6b32e, type: 3}
+  m_Name: People Prefab
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  data:
+  - type:
+      occupation: 0
+      age: 0
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 0
+      age: 0
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 0
+      age: 1
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 0
+      age: 1
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 0
+      age: 2
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 0
+      age: 2
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 1
+      age: 0
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 1
+      age: 0
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 1
+      age: 1
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 1
+      age: 1
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 1
+      age: 2
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 1
+      age: 2
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 2
+      age: 0
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 2
+      age: 0
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 2
+      age: 1
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 2
+      age: 1
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 2
+      age: 2
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 2
+      age: 2
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 3
+      age: 0
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 3
+      age: 0
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 3
+      age: 1
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 3
+      age: 1
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 3
+      age: 2
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 3
+      age: 2
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 4
+      age: 0
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 4
+      age: 0
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 4
+      age: 1
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 4
+      age: 1
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 4
+      age: 2
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 4
+      age: 2
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 5
+      age: 0
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 5
+      age: 0
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 5
+      age: 1
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 5
+      age: 1
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 5
+      age: 2
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 5
+      age: 2
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 6
+      age: 0
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 6
+      age: 0
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 6
+      age: 1
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 6
+      age: 1
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 6
+      age: 2
+      gender: 0
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+  - type:
+      occupation: 6
+      age: 2
+      gender: 1
+    number: 0
+    resource:
+      resourcesProduced:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesPossessed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0
+      resourcesConsumed:
+      - type: 0
+        volume: 0
+      - type: 1
+        volume: 0
+      - type: 2
+        volume: 0
+      - type: 3
+        volume: 0

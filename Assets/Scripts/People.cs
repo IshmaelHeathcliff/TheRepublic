@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "People", menuName = "ScriptableObjects/People")]
@@ -48,117 +49,127 @@ public class People : SerializedScriptableObject
         }
         
         [Button]
-        public void Test(PeopleData.DataType dataType, ResourceType resourceType, ResourceState resourceState,
+        public void Test(PeopleDataType peopleDataType, ResourceType resourceType, ResourceState resourceState,
                 PeopleType.Occupation occupation = PeopleType.Occupation.Null,
                 PeopleType.AgeType age = PeopleType.AgeType.Null,
                 PeopleType.Gender gender = PeopleType.Gender.Null, bool reset = false, int num = 1)
         {
                 if (reset)
                 {
-                        SetPopulation(0, false, occupation, age, gender);
-                        SetData(0, dataType, false, occupation, age, gender);
-                        SetResource(0, resourceState, resourceType, false, occupation, age, gender);
+                        UpdatePopulation(0, false, occupation, age, gender);
+                        UpdateData(0, peopleDataType, false, occupation, age, gender);
+                        UpdateResource(0, resourceState, resourceType, false, occupation, age, gender);
                         return;
                 }
                 
                 Debug.Log($"Number before: {GetPopulation(occupation, age, gender)}");
-                SetPopulation(num, true, occupation, age, gender);
+                UpdatePopulation(num, true, occupation, age, gender);
                 Debug.Log($"Number after: {GetPopulation(occupation, age, gender)}");
                 
-                Debug.Log($"Data before: {GetData(dataType, occupation, age, gender)}");
-                SetData(num, dataType, true, occupation, age, gender);
-                Debug.Log($"Data after: {GetData(dataType, occupation, age, gender)}");
+                Debug.Log($"Data before: {GetData(peopleDataType, occupation, age, gender)}");
+                UpdateData(num, peopleDataType, true, occupation, age, gender);
+                Debug.Log($"Data after: {GetData(peopleDataType, occupation, age, gender)}");
                 
                 Debug.Log($"Resource before: {GetResource(resourceState, resourceType, occupation, age, gender)}");
-                SetResource(num, resourceState, resourceType, true, occupation, age, gender);
+                UpdateResource(num, resourceState, resourceType, true, occupation, age, gender);
                 Debug.Log($"Resource after: {GetResource(resourceState, resourceType, occupation, age, gender)}");
+        }
+
+        IEnumerable<PeopleData> GetPeopleOfType(
+                PeopleType.Occupation occupation = PeopleType.Occupation.Null,
+                PeopleType.AgeType age = PeopleType.AgeType.Null,
+                PeopleType.Gender gender = PeopleType.Gender.Null)
+        {
+                return data.Where(datum =>
+                        (occupation == PeopleType.Occupation.Null || datum.type.occupation == occupation) &&
+                        (age == PeopleType.AgeType.Null || datum.type.age == age) &&
+                        (gender == PeopleType.Gender.Null || datum.type.gender == gender));
         }
 
         public int GetPopulation(PeopleType.Occupation occupation = PeopleType.Occupation.Null,
                                  PeopleType.AgeType age = PeopleType.AgeType.Null,
                                  PeopleType.Gender gender = PeopleType.Gender.Null)
         {
-                var sum = 0;
-                foreach (PeopleData datum in data)
-                {
-                        if ((occupation == PeopleType.Occupation.Null || datum.type.occupation == occupation) &&
-                            (age == PeopleType.AgeType.Null || datum.type.age == age) &&
-                            (gender == PeopleType.Gender.Null || datum.type.gender == gender))
-                        {
-                                sum += datum.number;
-                        }
-                }
-
-                return sum;
+                return GetPeopleOfType(occupation, age, gender).Sum(datum => datum.number);
         }
         
-        public void SetPopulation(int number, bool changeMode = false,
+        void UpdatePopulation(int number, bool changeMode = false,
                 PeopleType.Occupation occupation = PeopleType.Occupation.Null, 
                 PeopleType.AgeType age = PeopleType.AgeType.Null, 
                 PeopleType.Gender gender = PeopleType.Gender.Null)
         {
-                foreach (PeopleData datum in data)
+                foreach (PeopleData datum in GetPeopleOfType(occupation, age, gender))
                 {
-                        if ((occupation == PeopleType.Occupation.Null || datum.type.occupation == occupation) &&
-                            (age == PeopleType.AgeType.Null || datum.type.age == age) &&
-                            (gender == PeopleType.Gender.Null || datum.type.gender == gender))
+                        if (changeMode)
                         {
-                                if (changeMode)
-                                {
-                                        datum.number += number;
-                                }
-                                else
-                                {
-                                        datum.number = number;
-                                }
+                                datum.number += number;
                         }
-                        
+                        else
+                        {
+                                datum.number = number;
+                        }
                 }
                 
         }
 
-        public float GetData(PeopleData.DataType dataType, 
+        public void SetPopulation(int number,
                 PeopleType.Occupation occupation = PeopleType.Occupation.Null,
                 PeopleType.AgeType age = PeopleType.AgeType.Null,
                 PeopleType.Gender gender = PeopleType.Gender.Null)
         {
-                float result = 0f;
-                foreach (var datum in data)
-                {
-                        if ((occupation == PeopleType.Occupation.Null || datum.type.occupation == occupation) &&
-                            (age == PeopleType.AgeType.Null || datum.type.age == age) &&
-                            (gender == PeopleType.Gender.Null || datum.type.gender == gender))
-                        {
-                                result += datum[dataType];
-                        }
-                }
+                UpdatePopulation(number, false, occupation, age, gender);
+        }
 
-                return result;
-
+        public void ChangePopulation(int number,
+                PeopleType.Occupation occupation = PeopleType.Occupation.Null,
+                PeopleType.AgeType age = PeopleType.AgeType.Null,
+                PeopleType.Gender gender = PeopleType.Gender.Null)
+        {
+                UpdatePopulation(number, true, occupation, age, gender);
         }
         
-        public void SetData(float value, PeopleData.DataType dataType, bool changeMode = false,
+        
+
+        public float GetData(PeopleDataType peopleDataType, 
                 PeopleType.Occupation occupation = PeopleType.Occupation.Null,
                 PeopleType.AgeType age = PeopleType.AgeType.Null,
                 PeopleType.Gender gender = PeopleType.Gender.Null)
         {
-                foreach (var datum in data)
+                return GetPeopleOfType(occupation, age, gender).Sum(datum => datum[peopleDataType]);
+        }
+        
+        void UpdateData(float value, PeopleDataType peopleDataType, bool changeMode = false,
+                PeopleType.Occupation occupation = PeopleType.Occupation.Null,
+                PeopleType.AgeType age = PeopleType.AgeType.Null,
+                PeopleType.Gender gender = PeopleType.Gender.Null)
+        {
+                foreach (PeopleData datum in GetPeopleOfType(occupation, age, gender))
                 {
-                        if ((occupation == PeopleType.Occupation.Null || datum.type.occupation == occupation) &&
-                            (age == PeopleType.AgeType.Null || datum.type.age == age) &&
-                            (gender == PeopleType.Gender.Null || datum.type.gender == gender))
+                        if (changeMode)
                         {
-                                if (changeMode)
-                                {
-                                        datum[dataType] += value;
-                                }
-                                else
-                                {
-                                        datum[dataType] = value;
-                                }
-                                
+                                datum[peopleDataType] += value;
+                        }
+                        else
+                        {
+                                datum[peopleDataType] = value;
                         }
                 }
+        }
+
+        public void SetData(float value, PeopleDataType peopleDataType,
+                PeopleType.Occupation occupation = PeopleType.Occupation.Null,
+                PeopleType.AgeType age = PeopleType.AgeType.Null,
+                PeopleType.Gender gender = PeopleType.Gender.Null)
+        {
+                UpdateData(value, peopleDataType, false, occupation, age, gender);
+        }
+        
+        public void ChangeData(float value, PeopleDataType peopleDataType,
+                PeopleType.Occupation occupation = PeopleType.Occupation.Null,
+                PeopleType.AgeType age = PeopleType.AgeType.Null,
+                PeopleType.Gender gender = PeopleType.Gender.Null)
+        {
+                UpdateData(value, peopleDataType, true, occupation, age, gender);
         }
 
         public float GetResource(ResourceState resourceState, ResourceType resourceType, 
@@ -166,45 +177,42 @@ public class People : SerializedScriptableObject
                 PeopleType.AgeType age = PeopleType.AgeType.Null,
                 PeopleType.Gender gender = PeopleType.Gender.Null)
         {
-                float result = 0f;
-                foreach (var datum in data)
-                {
-                        if ((occupation == PeopleType.Occupation.Null || datum.type.occupation == occupation) &&
-                            (age == PeopleType.AgeType.Null || datum.type.age == age) &&
-                            (gender == PeopleType.Gender.Null || datum.type.gender == gender))
-                        {
-                                result += datum[resourceState, resourceType];
-                        }
-                }
-
-                return result;
-                
+                return GetPeopleOfType(occupation, age, gender).Sum(datum => datum[resourceState, resourceType]);
         }
         
-        public void SetResource(float value, ResourceState resourceState, ResourceType resourceType, bool changeMode = false,
+        void UpdateResource(float value, ResourceState resourceState, ResourceType resourceType, bool changeMode = false,
                 PeopleType.Occupation occupation = PeopleType.Occupation.Null,
                 PeopleType.AgeType age = PeopleType.AgeType.Null,
                 PeopleType.Gender gender = PeopleType.Gender.Null)
         {
-                foreach (PeopleData datum in data)
+                foreach (PeopleData datum in GetPeopleOfType(occupation, age, gender))
                 {
-                        if ((occupation == PeopleType.Occupation.Null || datum.type.occupation == occupation) &&
-                            (age == PeopleType.AgeType.Null || datum.type.age == age) &&
-                            (gender == PeopleType.Gender.Null || datum.type.gender == gender))
+                        if (changeMode)
                         {
-                                if (changeMode)
-                                {
-                                        datum[resourceState, resourceType] += value;
-                                }
-                                else
-                                {
-                                        datum[resourceState, resourceType] = value;
-                                }
-                                
-                                
+                                datum[resourceState, resourceType] += value;
+                        }
+                        else
+                        {
+                                datum[resourceState, resourceType] = value;
                         }
                 }
+        }
 
-                
+        public void SetResource(float value, ResourceState resourceState, ResourceType resourceType,
+                bool changeMode = false,
+                PeopleType.Occupation occupation = PeopleType.Occupation.Null,
+                PeopleType.AgeType age = PeopleType.AgeType.Null,
+                PeopleType.Gender gender = PeopleType.Gender.Null)
+        {
+                UpdateResource(value, resourceState, resourceType, false, occupation, age, gender);
+        }
+        
+        public void ChangeResource(float value, ResourceState resourceState, ResourceType resourceType,
+                bool changeMode = false,
+                PeopleType.Occupation occupation = PeopleType.Occupation.Null,
+                PeopleType.AgeType age = PeopleType.AgeType.Null,
+                PeopleType.Gender gender = PeopleType.Gender.Null)
+        {
+                UpdateResource(value, resourceState, resourceType, true, occupation, age, gender);
         }
 }
