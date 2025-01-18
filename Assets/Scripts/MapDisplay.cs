@@ -17,7 +17,8 @@ public class MapDisplay : MonoBehaviour {
 
     List<GameObject> _regionParts;
 
-    public void DrawTexture(Texture2D texture) {
+    public void DrawTexture(Texture2D texture)
+    {
         textureRender.sprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
     }
 
@@ -67,7 +68,7 @@ public class MapDisplay : MonoBehaviour {
             return;
         }
         if (_regionParts.Count == 0) return;
-        
+
         foreach (GameObject point in _regionParts)
         {
             DestroyImmediate(point);
