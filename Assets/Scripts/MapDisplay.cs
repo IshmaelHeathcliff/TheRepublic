@@ -17,16 +17,19 @@ public class MapDisplay : MonoBehaviour {
 
     List<GameObject> _regionParts;
 
+    // 绘制纹理
     public void DrawTexture(Texture2D texture)
     {
         textureRender.sprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
     }
 
+    // 绘制噪声纹理
     public void DrawNoiseTexture(Texture2D texture)
     {
         noiseRender.sprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
     }
 
+    // 绘制地图起始点
     public void DisplayPoints(List<Region> regions)
     {
         var mapGen = GetComponent<MapGenerator>();
@@ -41,6 +44,7 @@ public class MapDisplay : MonoBehaviour {
         }
     }
     
+    // 绘制地图邻居
     public void DisplayNeighbour(List<Region> regions)
     {
         var mapGen = GetComponent<MapGenerator>();
@@ -60,6 +64,7 @@ public class MapDisplay : MonoBehaviour {
         }
     }
 
+    // 清除地图点
     public void ClearPoints()
     {
         if (_regionParts == null)
